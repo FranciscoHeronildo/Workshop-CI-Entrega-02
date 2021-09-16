@@ -2,14 +2,10 @@ stages:
   - build
 #  - test
 
-
-cache:
-  paths:
-    - node_modules/
-
 build:
   image: node:latest
   stage: build
   script:
     - yarn
-    - yarn dev
+    - yarn lint
+    - yarn build
