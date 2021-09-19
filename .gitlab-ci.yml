@@ -2,6 +2,7 @@ stages:
   - build
   - test
 
+
 backend-build:
   image: node:latest
   stage: build
@@ -18,9 +19,13 @@ frontend-build:
     - yarn
 
 
+image: docker:latest
+
 backend-test:
   image: docker/compose:latest
   stage: test
+  before_script:
+    - cd backend
   script:
     - docker-compose run --entrypoint "npm run unittest" backend
 
