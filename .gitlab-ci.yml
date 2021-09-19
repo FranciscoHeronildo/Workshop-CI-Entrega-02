@@ -2,10 +2,15 @@ stages:
   - build
 #  - test
 
-build:
+backend-build:
   image: node:latest
   stage: build
+  before_script:
+    - npm install
+  script:
+    - npm run build
+
+frontend-build:
+  image: node:latest
   script:
     - yarn
-    - yarn lint
-    - yarn build
