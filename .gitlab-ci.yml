@@ -18,10 +18,6 @@ frontend-build:
   script:
     - yarn
 
-image: docker:latest
-services:
-  - docker:dind
-
 variables:
   CI_REGISTRY_USER: $CI_REGISTRY_USER
   CI_REGISTRY_PASSWORD: $CI_REGISTRY_PASSWORD
@@ -45,18 +41,22 @@ frontend-test:
 
 backend-deploy:
   image: docker:latest
+  services:
+  - docker:dind
   stage: deploy
   before_script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
   script:
-    - docker build -t $CI_REGISTRY_USER/backend-image -f backend/Dockerfile .
-    - docker push $CI_REGISTRY_USER/backend-image
+    - docker build -t franciscoheronildo/workshop-ci-entrega-02:backend-image .
+    - docker push franciscoheronildo/workshop-ci-entrega-02:backend-image
 
 frontend-deploy:
   image: docker:latest
+  services:
+  - docker:dind
   stage: deploy
   before_script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
   script:
-    - docker build -t $CI_REGISTRY_USER/frontend-image -f frontend/Dockerfile .
-    - docker push $CI_REGISTRY_USER/frontend-image
+    - docker build -t franciscoheronildo/workshop-ci-entrega-02:frontend-image .
+    - docker push franciscoheronildo/workshop-ci-entrega-02:frontend-image
