@@ -25,7 +25,7 @@ backend-test:
   image: docker/compose:latest
   stage: test
   before_script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" --password-stdin
     - cd backend
   script:
     - docker-compose run --entrypoint "npm run unittest" backend
@@ -34,6 +34,6 @@ frontend-test:
   image: docker/compose:latest
   stage: test
   before_script:
-  - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" --password-stdin
   script:
     - docker-compose run --entrypoint "npm run test" frontend
