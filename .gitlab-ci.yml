@@ -49,7 +49,7 @@ backend-deploy:
   before_script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
   script:
-    - docker build -t $CI_REGISTRY_USER/backend-image .
+    - docker build -t $CI_REGISTRY_USER/backend-image -f backend/Dockerfile .
     - docker push $CI_REGISTRY_USER/backend-image
 
 frontend-deploy:
@@ -58,5 +58,5 @@ frontend-deploy:
   before_script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
   script:
-    - docker build -t $CI_REGISTRY_USER/frontend-image .
+    - docker build -t $CI_REGISTRY_USER/frontend-image -f frontend/Dockerfile .
     - docker push $CI_REGISTRY_USER/frontend-image
