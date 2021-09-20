@@ -24,6 +24,8 @@ variables:
 
 backend-test:
   image: docker/compose:latest
+  services:
+  - docker:dind
   stage: test
   before_script:
     - cd backend
@@ -33,6 +35,8 @@ backend-test:
 
 frontend-test:
   image: docker/compose:latest
+  services:
+  - docker:dind
   stage: test
   before_script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
