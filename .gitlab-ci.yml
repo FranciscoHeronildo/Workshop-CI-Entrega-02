@@ -65,11 +65,10 @@ backend-deploy:
   - docker:dind
   stage: deploy
   before_script:
-    - cd backend
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
   script:
     - docker build --pull -t franciscoheronildo/backend-image ./backend
-    - docker push franciscoheronildo/workshop-ci-entrega-02/backend-image
+    - docker push franciscoheronildo/workshop-ci-entrega-02:backend
   after_script:
     - echo "Deploy Successful"
 
@@ -82,6 +81,6 @@ frontend-deploy:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
   script:
     - docker build --pull -t franciscoheronildo/frontend-image ./frontend
-    - docker push franciscoheronildo/workshop-ci-entrega-02/frontend-image
+    - docker push franciscoheronildo/workshop-ci-entrega-02:frontend
   after_script:
     - echo "Deploy Successful"
