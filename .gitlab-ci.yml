@@ -1,10 +1,11 @@
 #Gitlab Repo: https://gitlab.com/FranciscoHeronildo/Workshop-CI-Entrega-02
-
 stages:
   - build
   - test
   - deploy
 
+
+# Stage 1: Build's BackEnd and FrontEnd
 backend-build:
   image: node:latest
   stage: build
@@ -13,17 +14,24 @@ backend-build:
   script:
     - npm install
     - npm run build
+  after_script:
+    - echo "Build Successful"
 
 frontend-build:
   image: node:latest
   stage: build
   script:
     - yarn
+  after_script:
+    - echo "Build Successful"
 
+
+# Variables to access DockerHub
 variables:
   CI_REGISTRY_USER: $CI_REGISTRY_USER
   CI_REGISTRY_PASSWORD: $CI_REGISTRY_PASSWORD
 
+# Stage 2: Test's BackEnd and FrontEnd
 backend-test:
   image: docker/compose:latest
   services:
@@ -34,6 +42,8 @@ backend-test:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
   script:
     - docker-compose run --entrypoint "npm run unittest" backend
+  after_script:
+    - echo "Test Successful"
 
 frontend-test:
   image: docker/compose:latest
@@ -44,7 +54,11 @@ frontend-test:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
   script:
     - docker-compose run --entrypoint "npm run test" frontend
+  after_script:
+    - echo "Test Successful"
 
+
+# Stage 2: Deploy's BackEnd and FrontEnd
 backend-deploy:
   image: docker:latest
   services:
@@ -54,8 +68,10 @@ backend-deploy:
     - cd backend
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
   script:
-    - docker build --pull -t franciscoheronildo/backend-image ./backend/
+    - docker build --pull -t franciscoheronildo/backend-image ./backend
     - docker push franciscoheronildo/workshop-ci-entrega-02/backend-image
+  after_script:
+    - echo "Deploy Successful"
 
 frontend-deploy:
   image: docker:latest
@@ -65,5 +81,7 @@ frontend-deploy:
   before_script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
   script:
-    - docker build --pull -t franciscoheronildo/frontend-image ./frontend/
+    - docker build --pull -t franciscoheronildo/frontend-image ./frontend
     - docker push franciscoheronildo/workshop-ci-entrega-02/frontend-image
+  after_script:
+    - echo "Deploy Successful"
