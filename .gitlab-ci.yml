@@ -68,7 +68,7 @@ backend-deploy:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
   script:
     - docker build --pull -t franciscoheronildo/workshop-ci-entrega-02 ./backend
-    - docker push franciscoheronildo/workshop-ci-entrega-02:backend
+    - docker push franciscoheronildo/workshop-ci-entrega-02
   after_script:
     - echo "Deploy Successful"
 
@@ -81,6 +81,6 @@ frontend-deploy:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
   script:
     - docker build --pull -t franciscoheronildo/workshop-ci-entrega-02 ./frontend
-    - docker push franciscoheronildo/workshop-ci-entrega-02:frontend
+    - docker push franciscoheronildo/workshop-ci-entrega-02
   after_script:
     - echo "Deploy Successful"
