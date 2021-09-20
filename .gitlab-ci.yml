@@ -1,9 +1,8 @@
-#Gitlab Repo: https://gitlab.com/FranciscoHeronildo/Workshop-CI-Entrega-02
+# Gitlab Repo: https://gitlab.com/FranciscoHeronildo/Workshop-CI-Entrega-02
 stages:
   - build
   - test
   - deploy
-
 
 # Stage 1: Build's BackEnd and FrontEnd
 backend-build:
@@ -24,7 +23,6 @@ frontend-build:
     - yarn
   after_script:
     - echo "Build Successful"
-
 
 # Variables to access DockerHub
 variables:
@@ -57,8 +55,7 @@ frontend-test:
   after_script:
     - echo "Test Successful"
 
-
-# Stage 2: Deploy's BackEnd and FrontEnd
+# Stage 3: Deploy's BackEnd and FrontEnd
 backend-deploy:
   image: docker:latest
   services:
