@@ -52,8 +52,8 @@ backend-deploy:
     - cd backend
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
   script:
-    - docker build --no-cache=true --pull -f ./Dockerfile -t $CI_REGISTRY:backend .
-    - docker push $CI_REGISTRY:backend
+    - docker build --pull -t franciscoheronildo/backend-image ./backend/
+    - docker push franciscoheronildo/workshop-ci-entrega-02/backend-image
 
 frontend-deploy:
   image: docker:latest
@@ -63,5 +63,5 @@ frontend-deploy:
   before_script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
   script:
-    - docker build --no-cache=true --pull -f ./Dockerfile -t $CI_REGISTRY:frontend .
-    - docker push $CI_REGISTRY:frontend
+    - docker build --pull -t franciscoheronildo/frontend-image ./frontend/
+    - docker push franciscoheronildo/workshop-ci-entrega-02/frontend-image
