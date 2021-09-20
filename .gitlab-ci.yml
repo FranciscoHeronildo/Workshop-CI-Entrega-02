@@ -1,7 +1,7 @@
 stages:
   - build
   - test
-
+  - deploy
 
 backend-build:
   image: node:latest
@@ -17,7 +17,6 @@ frontend-build:
   stage: build
   script:
     - yarn
-
 
 image: docker:latest
 services:
@@ -43,3 +42,21 @@ frontend-test:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
   script:
     - docker-compose run --entrypoint "npm run test" frontend
+
+backend-deploy:
+  image: docker:latest
+  stage: deploy
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
+  script:
+    - docker build -t $CI_REGISTRY_USER/backend-image .
+    - docker push $CI_REGISTRY_USER/backend-image
+
+frontend-deploy:
+  image: docker:latest
+  stage: deploy
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
+  script:
+    - docker build -t $CI_REGISTRY_USER/frontend-image .
+    - docker push $CI_REGISTRY_USER/frontend-image
